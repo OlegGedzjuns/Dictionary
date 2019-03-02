@@ -1,26 +1,27 @@
 #pragma once
 
-#include <string>
-#include <fstream>
-#include "Collections.h"
+class Dictionary;
 
-using namespace std;
-using namespace SortedList;
-
-class Dictionary_class
+class Node
 {
-private:
-	ifstream _inputF;
-	ofstream _outputF;
-	SortedList_class<string>* _storage;
-
-	bool CheckWord(string &word);
-	int GetWords();
-	void PrintWords();
 public:
-	Dictionary_class(string inputPath, string outputPath);
-	~Dictionary_class();
+	char letter = '\0';
+	bool EOW = false;
+	Dictionary* letters = nullptr;
+	Node* next = nullptr;
+};
 
-	int Create();
+class Dictionary
+{
+public:
+	int size = 0;
+	Node* head = nullptr;
+	Node* tail = nullptr;
+private:
+	Dictionary* _PushBack(Node* letter);
+	Dictionary* _PushFront(Node* letter);
+	Dictionary* _PushAt(int index, Node* letter);
+public:
+	Dictionary* Add(Node* letter);
 };
 
