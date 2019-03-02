@@ -1,75 +1,73 @@
 #include "Dictionary.h"
 
-#if _DEBUG
-	#include <iostream>
-#endif
-
-bool Dictionary_class::CheckWord(string &word)
+Dictionary* Dictionary::_PushBack(Node* letter)
 {
-	for (int i = 0; word[i] != '\0'; i++)
+	letter->letters = new Dictionary;
+	tail->next = letter;
+	tail = tail->next;
+	size++;
+	return letter->letters;
+}
+
+Dictionary* Dictionary::_PushFront(Node* letter)
+{
+	letter->letters = new Dictionary;
+	letter->next = head;
+	head = letter;
+	size++;
+	return letter->letters;
+}
+
+Dictionary* Dictionary::_PushAt(int index, Node* letter)
+{
+	if (index <= 0)
 	{
-		if ((word[i] >= 'A' && word[i] <= 'Z') || (word[i] >= 'a' && word[i] <= 'z') || word[i] == '\'')
+		return _PushFront(letter);
+	}
+	else if (index >= size)
+	{
+		return _PushBack(letter);
+	}
+	else
+	{
+		Node* it = head;
+		for (int i = 0; i < index - 1; i++, it = it->next);
+		letter->next = it->next;
+		it->next = letter;
+		size++;
+		letter->letters = new Dictionary;
+		return letter->letters;
+	}
+}
+
+Dictionary* Dictionary::Add(Node* letter)
+{
+	if (size <= 0)
+	{
+		size++;
+		head = letter;
+		tail = letter;
+		letter->letters = new Dictionary;
+		return letter->letters;
+	}
+	int i = 0;
+	for (Node* it = head; it != nullptr; it = it->next, i++)
+	{
+		if (letter->letter <= it->letter)
 		{
-			if (word[i] < 'a' && word[i] != '\'')
+			if (letter->letter == it->letter)
 			{
-				word[i] += ('a' - 'A');
+				if (letter->EOW == true && it->EOW == false)
+				{
+					it->EOW = true;
+				}
+				return it->letters;
+			}
+			else
+			{
+				break;
 			}
 		}
-		else
-		{
-			return false;
-		}
 	}
-	return true;
-}
-
-int Dictionary_class::GetWords()
-{
-	string word;
-	int addedCnt = 0;
-	if (_inputF.is_open())
-	{
-		while (!_inputF.eof())
-		{
-			_inputF >> word;
-			/*if (CheckWord(word))
-			{*/
-				_storage->Add(word);
-				addedCnt++;
-#if _DEBUG
-				if(addedCnt % 1000 == 0)
-					std::cout << addedCnt << endl;
-#endif
-			//}
-		}
-	}
-	return addedCnt;
-}
-
-void Dictionary_class::PrintWords()
-{
-	for (auto it = _storage->Head(); it != nullptr; it = it->Next())
-	{
-		_outputF << it->Data() << endl;
-	}
-}
-
-Dictionary_class::Dictionary_class(string inputPath, string outputPath)
-{
-	_inputF.open(inputPath);
-	_outputF.open(outputPath);
-	_storage = new SortedList_class<string>;
-}
-
-Dictionary_class::~Dictionary_class()
-{
-	_inputF.close();
-	_outputF.close();
-}
-
-int Dictionary_class::Create()
-{
-	int addedCnt = GetWords();
-	PrintWords();
-	return addedCnt;
+	return _PushAt(i, letter);
 }
