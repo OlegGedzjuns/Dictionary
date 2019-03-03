@@ -1,12 +1,53 @@
 #include "Manager.h"
 
-#include <iostream>
-
-using namespace std;
-
 Manager::Manager(string &inputPath)
 {
 	inF.open(inputPath);
+	if(inF.is_open())
+		haveInputFile = true;
+}
+
+bool Manager::AddInputFile(string name)
+{
+	inF.open(name);
+	if (inF.is_open())
+	{
+		haveInputFile = true;
+	}
+	return haveInputFile;
+}
+
+bool Manager::AddOutputFile(string name)
+{
+	outF.open(name);
+	if (outF.is_open())
+	{
+		haveOutputFile = true;
+	}
+	return haveOutputFile;
+}
+
+void Counter(Dictionary* it, int& cnt)
+{
+	if (it == nullptr)
+	{
+		return;
+	}
+	for (Node* letter = it->head; letter != nullptr; letter = letter->next)
+	{
+		if (letter->EOW)
+		{
+			cnt++;
+		}
+		Counter(letter->letters, cnt);
+	}
+}
+
+int Manager::CountWords()
+{
+	wordCnt = 0;
+	Counter(mainNodes, wordCnt);
+	return wordCnt;
 }
 
 bool Manager::CheckWord(string &word)
@@ -43,10 +84,10 @@ void Manager::AddToDict(string &word)
 	}
 }
 
-void Manager::GetData()
+int Manager::GetData()
 {
 	string word;
-	if (inF.is_open())
+	if (haveInputFile)
 	{
 		int i = 0;
 		while (!inF.eof())
@@ -58,8 +99,10 @@ void Manager::GetData()
 				i++;
 			}
 		}
-		cout << "Found " << i << " words in file" << endl;
 	}
+	int startCnt = wordCnt;
+	CountWords();
+	return wordCnt - startCnt;
 }
 
 void PrintData(string &word, Dictionary* it, ofstream& outF)
@@ -80,12 +123,18 @@ void PrintData(string &word, Dictionary* it, ofstream& outF)
 	}
 }
 
-void Manager::PrinToFile()
+bool Manager::PrinToFile()
 {
-	outF.open("Result.txt");
-	string buf;
-	PrintData(buf, mainNodes, outF);
-	cin.get();
+	if (haveOutputFile)
+	{
+		string buf;
+		PrintData(buf, mainNodes, outF);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
