@@ -180,8 +180,10 @@ int UserInterface::MainMenu()
 				clock_t start = clock();
 				int cnt = manager->GetData();
 				clock_t end = clock();
-				cout << "File readen in " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl;
+				TextColor(2);
+				cout << "File has been read in " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl;
 				cout << "Added " << cnt << " words" << endl;
+				TextColor(7);
 				Pause();
 				break;
 			}
@@ -196,7 +198,9 @@ int UserInterface::MainMenu()
 				clock_t start = clock();
 				manager->PrinToFile();
 				clock_t end = clock();
+				TextColor(2);
 				cout << "File printed in " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl;
+				TextColor(7);
 				Pause();
 				break;
 			}
