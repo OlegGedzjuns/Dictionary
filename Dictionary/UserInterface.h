@@ -3,10 +3,11 @@
 #include <Windows.h>
 #include <iostream>
 #include <string>
-
-#include "Manager.h"
 #include <time.h>
 #include <conio.h>
+
+#include "Manager.h"
+#include "TimeManager.h"
 
 using namespace std;
 

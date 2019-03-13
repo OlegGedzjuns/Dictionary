@@ -27,6 +27,7 @@
   <ItemGroup>
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

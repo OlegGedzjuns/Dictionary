@@ -135,29 +135,29 @@ bool UserInterface::AddOutputFile()
 	cout << "\t2.Use custom" << endl;
 	switch (Choicer(1, 2))
 	{
-	case 1:
-	{
-		return manager->AddOutputFile(name);
-	}
-	case 2:
-	{
-		bool added = false;
-		do
+		case 1:
 		{
-			cout << "Enter name : ";
-			cin >> name;
-			added = manager->AddOutputFile(name);
-			if (!added)
+			return manager->AddOutputFile(name);
+		}
+		case 2:
+		{
+			bool added = false;
+			do
 			{
-				TextColor(4);
-				cout << "Wrong" << endl;
-				TextColor(7);
-			}
-		} while (!added);
-		return added;
-	}
-	default:
-		return false;
+				cout << "Enter name : ";
+				cin >> name;
+				added = manager->AddOutputFile(name);
+				if (!added)
+				{
+					TextColor(4);
+					cout << "Wrong" << endl;
+					TextColor(7);
+				}
+			} while (!added);
+			return added;
+		}
+		default:
+			return false;
 	}
 }
 
@@ -177,11 +177,12 @@ int UserInterface::MainMenu()
 				}
 				system("cls");
 				cout << "Loading.." << endl;
-				clock_t start = clock();
+				Time sw;
+				sw.StartTimeMeasure();
 				int cnt = manager->GetData();
-				clock_t end = clock();
+				sw.EndTimeMeasure();
 				TextColor(2);
-				cout << "File has been read in " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl;
+				cout << "File has been read in " << sw.GetTimeMeasure() << " seconds" << endl;
 				cout << "Added " << cnt << " words" << endl;
 				TextColor(7);
 				Pause();
@@ -195,11 +196,12 @@ int UserInterface::MainMenu()
 				}
 				system("cls");
 				cout << "Printing.." << endl;
-				clock_t start = clock();
+				Time sw;
+				sw.StartTimeMeasure();
 				manager->PrinToFile();
-				clock_t end = clock();
+				sw.EndTimeMeasure();
 				TextColor(2);
-				cout << "File printed in " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl;
+				cout << "File printed in " << sw.GetTimeMeasure() << " seconds" << endl;
 				TextColor(7);
 				Pause();
 				break;
