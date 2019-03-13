@@ -4,4 +4,5 @@ int main()
 {
 	UserInterface* UI = new UserInterface;
 	return UI->MainMenu();
+	delete UI;
 }
