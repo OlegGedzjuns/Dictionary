@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <iostream>
 #include <string>
-#include <time.h>
 #include <conio.h>
 
 #include "Manager.h"

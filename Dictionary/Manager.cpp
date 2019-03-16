@@ -306,8 +306,63 @@ string Manager::correctorD(string &word, Dictionary* it)	// one mistake incorrec
 	return correct;
 }
 
-void correctorE(string &word, Dictionary* it, string &correct)
+int LevenshteinDist(string &s1, string &s2)
 {
+	short int** matrix = new short int*[s2.size() + 1];
+	for (int i = 0; i < s2.size() + 1; i++)
+		matrix[i] = new short int[s1.size() + 1];
+
+	for (int i = 0; i < s1.size() + 1; i++)
+		matrix[0][i] = i;
+	for (int i = 0; i < s2.size() + 1; i++)
+		matrix[i][0] = i;
+
+	for (int i = 1; i < s2.size() + 1; i++) 
+	{
+		for (int j = 1; j < s1.size() + 1; j++) 
+		{
+			if (s1[j - 1] == s2[i - 1])
+			{
+				matrix[i][j] = matrix[i - 1][j - 1];
+			}
+			else
+			{
+				matrix[i][j] = min(min(
+					matrix[i - 1][j - 1],
+					matrix[i][j - 1]),
+					matrix[i - 1][j]
+				) + 1;
+			}
+		}
+	}
+	int res = matrix[s2.size()][s1.size()];
+	for (int i = 0; i < s2.size() + 1; i++)
+		delete matrix[i];
+	delete matrix;
+	return res;
+}
+
+void correctorE(string &word, Dictionary* it, string &correct, string &buf, int &min)
+{
+	if (it == nullptr)
+	{
+		return;
+	}
+	for (Node* letter = it->head; letter != nullptr; letter = letter->next)
+	{
+		buf.push_back(letter->letter);
+		if (letter->EOW)
+		{
+			int dist = LevenshteinDist(word, buf);
+			if (min == -1 || dist <= min)
+			{
+				min = dist;
+				correct = buf;
+			}
+		}
+		correctorE(word, letter->letters, correct, buf, min);
+		buf.pop_back();
+	}
 }
 
 string Manager::FindCorrect(string &word, int i)
@@ -342,7 +397,9 @@ string Manager::FindCorrect(string &word, int i)
 			}
 			case 5:
 			{
-				correctorE(word, mainNodes, correct);
+				string buf;
+				int mindist = -1;
+				correctorE(word, mainNodes, correct, buf, mindist);
 				break;
 			}
 		}
@@ -353,5 +410,3 @@ string Manager::FindCorrect(string &word, int i)
 		return word;
 	}
 }
-
-

@@ -7,10 +7,10 @@ void UserInterface::TuneCmd()
 	cfi.cbSize = sizeof(cfi);
 	cfi.nFont = 0;
 	cfi.dwFontSize.X = 0;	// Width of each character in the font
-	cfi.dwFontSize.Y = 24;	// Height
+	cfi.dwFontSize.Y = 16;	// Height
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
-	wcscpy_s(cfi.FaceName, L"Consolas");	// Choose your font
+	wcscpy_s(cfi.FaceName, L"Lucida Console");	// Choose your font
 	SetCurrentConsoleFontEx(_hndl, FALSE, &cfi);
 }
 
@@ -164,20 +164,6 @@ bool UserInterface::AddOutputFile()
 
 int UserInterface::MainMenu()
 {
-#if _DEBUG
-	manager->AddInputFile("input2.txt");
-	manager->GetData();
-	TextColor(7);
-	string word = "mamma";
-	cout << "Start" << endl;
-	cout << word << endl;
-	cout << "Methode A : " << manager->FindCorrect(word, 1) << endl;
-	cout << "Methode B : " << manager->FindCorrect(word, 2) << endl;
-	cout << "Methode C : " << manager->FindCorrect(word, 3) << endl;
-	//cout << "Methode D : " << manager->FindCorrect(word, 4) << endl;
-	//cout << "Methode E : " << manager->FindCorrect(word, 5) << endl;
-	Pause();
-#else
 	while (!end)
 	{
 		system("cls");
@@ -316,7 +302,6 @@ int UserInterface::MainMenu()
 				break;
 		}
 	}
-#endif
 	return 0;
 }
 

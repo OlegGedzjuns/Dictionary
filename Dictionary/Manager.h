@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include "Dictionary.h"
 
 using namespace std;
@@ -40,7 +41,9 @@ public:
 	friend void correctorB(string &word, Dictionary* it, string &correct, bool &found);
 	friend void correctorC(string &word, Dictionary* it, string &correct, bool &found);
 	string correctorD(string &word, Dictionary* it);
-	friend void correctorE(string &word, Dictionary* it, string &correct);
+
+	friend int LevenshteinDist(string &s1, string &s2);
+	friend void correctorE(string &word, Dictionary* it, string &correct, string &buf, int &min);
 	string FindCorrect(string &word, int i);
 };
 
