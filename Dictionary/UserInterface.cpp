@@ -56,7 +56,6 @@ void UserInterface::PrintStats()
 		cout << "Not found" << endl;
 		TextColor(8);
 	}
-	cout << "\tEaten RAM : " << sizeof(*manager) << " bytes" << endl;
 }
 
 int UserInterface::OptionsMenu()
@@ -68,9 +67,11 @@ int UserInterface::OptionsMenu()
 	cout << "\t2.Print data to file" << endl;
 	cout << "\t3.Add input file" << endl;
 	cout << "\t4.Add output file" << endl;
-	cout << "\t5.Delete data from programm" << endl;
-	cout << "\t6.Exit" << endl;
-	return Choicer(1, 6);
+	cout << "\t5.Find word" << endl;
+	cout << "\t6.Find simmilar word" << endl;
+	cout << "\t7.Delete data from programm" << endl;
+	cout << "\t8.Exit" << endl;
+	return Choicer(1, 8);
 }
 
 bool UserInterface::AddInputFile()
@@ -93,7 +94,7 @@ bool UserInterface::AddInputFile()
 	{
 		case 1:
 		{
-			return manager->AddInputFile(name);
+			return manager->AddInputFile("input.txt");
 		}
 		case 2:
 		{
@@ -163,6 +164,20 @@ bool UserInterface::AddOutputFile()
 
 int UserInterface::MainMenu()
 {
+#if _DEBUG
+	manager->AddInputFile("input2.txt");
+	manager->GetData();
+	TextColor(7);
+	string word = "mamma";
+	cout << "Start" << endl;
+	cout << word << endl;
+	cout << "Methode A : " << manager->FindCorrect(word, 1) << endl;
+	cout << "Methode B : " << manager->FindCorrect(word, 2) << endl;
+	cout << "Methode C : " << manager->FindCorrect(word, 3) << endl;
+	//cout << "Methode D : " << manager->FindCorrect(word, 4) << endl;
+	//cout << "Methode E : " << manager->FindCorrect(word, 5) << endl;
+	Pause();
+#else
 	while (!end)
 	{
 		system("cls");
@@ -219,12 +234,80 @@ int UserInterface::MainMenu()
 			case 5:
 			{
 				system("cls");
+				bool stop = false;
+				while (!stop)
+				{
+					TextColor(7);
+					cout << "Enter word to search (X to stop) : ";
+					string word;
+					cin >> word;
+					if (word == "X")
+					{
+						stop = true;
+						break;
+					}
+					if (manager->CheckWord(word))
+					{
+						if (manager->FindWord(word))
+						{
+							TextColor(8);
+							cout << "Word (" << word << ") exist in dictionary" << endl;
+						}
+						else
+						{
+							TextColor(8);
+							cout << "This word is not in the dictionary" << endl;
+							cout << "Do you want to add it? Y/N" << endl;
+							TextColor(7);
+							cout << "Your choice : ";
+							char c = 'N';
+							cin >> c;
+							if (c == 'Y')
+							{
+								manager->AddToDict(word);
+							}
+						}
+					}
+					else
+					{
+						TextColor(8);
+						cout << "Not a word" << endl;
+					}
+				}
+				break;
+			}
+			case 6:
+			{
+				system("cls");
+				TextColor(7);
+				cout << "Enter word to correct : ";
+				string word;
+				cin >> word;
+				TextColor(8);
+				if (!manager->CheckWord(word))
+				{
+					cout << "Not a word" << endl;
+					Pause();
+					break;
+				}
+				cout << "Methode A : " << manager->FindCorrect(word, 1) << endl;
+				cout << "Methode B : " << manager->FindCorrect(word, 2) << endl;
+				cout << "Methode C : " << manager->FindCorrect(word, 3) << endl;
+				cout << "Methode D : " << manager->FindCorrect(word, 4) << endl;
+				cout << "Methode E : " << manager->FindCorrect(word, 5) << endl;
+				TextColor(7);
+				Pause();
+				break;
+			}
+			case 7:
+			{
+				system("cls");
 				TextColor(4);
 				cout << "TODO" << endl;
 				Pause();
 				break;
 			}
-			case 6:
+			case 8:
 			{
 				end = true;
 				break;
@@ -233,14 +316,15 @@ int UserInterface::MainMenu()
 				break;
 		}
 	}
+#endif
 	return 0;
 }
 
 UserInterface::UserInterface()
 {
 	manager = new Manager;
-	TuneCmd();
 	_hndl = GetStdHandle(STD_OUTPUT_HANDLE);
+	TuneCmd();
 }
 
 UserInterface::~UserInterface()
