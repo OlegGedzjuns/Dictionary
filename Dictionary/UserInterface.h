@@ -14,6 +14,7 @@ class UserInterface
 {
 private:
 	HANDLE _hndl;
+	Time sw;
 	Manager* manager;
 	bool end = false;
 	void TuneCmd();

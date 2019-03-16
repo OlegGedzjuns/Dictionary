@@ -178,7 +178,6 @@ int UserInterface::MainMenu()
 				}
 				system("cls");
 				cout << "Loading.." << endl;
-				Time sw;
 				sw.StartTimeMeasure();
 				int cnt = manager->GetData();
 				sw.EndTimeMeasure();
@@ -197,7 +196,6 @@ int UserInterface::MainMenu()
 				}
 				system("cls");
 				cout << "Printing.." << endl;
-				Time sw;
 				sw.StartTimeMeasure();
 				manager->PrinToFile();
 				sw.EndTimeMeasure();
@@ -276,11 +274,34 @@ int UserInterface::MainMenu()
 					Pause();
 					break;
 				}
+#if _DEBUG
+				sw.StartTimeMeasure();
 				cout << "Methode A : " << manager->FindCorrect(word, 1) << endl;
+				sw.EndTimeMeasure();
+				cout << "Found in " << sw.GetTimeMeasure() << endl << endl;
+				sw.StartTimeMeasure();
 				cout << "Methode B : " << manager->FindCorrect(word, 2) << endl;
+				sw.EndTimeMeasure();
+				cout << "Found in " << sw.GetTimeMeasure() << endl << endl;
+				sw.StartTimeMeasure();
 				cout << "Methode C : " << manager->FindCorrect(word, 3) << endl;
+				sw.EndTimeMeasure();
+				cout << "Found in " << sw.GetTimeMeasure() << endl << endl;
+				sw.StartTimeMeasure();
 				cout << "Methode D : " << manager->FindCorrect(word, 4) << endl;
+				sw.EndTimeMeasure();
+				cout << "Found in " << sw.GetTimeMeasure() << endl << endl;
+				sw.StartTimeMeasure();
 				cout << "Methode E : " << manager->FindCorrect(word, 5) << endl;
+				sw.EndTimeMeasure();
+				cout << "Found in " << sw.GetTimeMeasure() << endl << endl;
+#else
+				sw.StartTimeMeasure();
+				cout << "Correct : " << manager->FindCorrect(word, 5) << endl;
+				sw.EndTimeMeasure();
+				cout << "Found in " << sw.GetTimeMeasure() << " seconds" << endl;
+
+#endif
 				TextColor(7);
 				Pause();
 				break;
