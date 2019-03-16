@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <iostream>
 #include <string>
-#include <time.h>
 #include <conio.h>
 
 #include "Manager.h"
@@ -21,6 +20,7 @@ private:
 	void TextColor(int color);
 	void Pause();
 	int Choicer(int min, int max);
+
 	void PrintStats();
 	int OptionsMenu();
 	bool AddInputFile();
