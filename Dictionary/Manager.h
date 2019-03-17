@@ -37,7 +37,6 @@ public:
 	friend void Finder(string &word, Dictionary* it, bool &found, int i);
 	bool FindWord(string &word);
 
-	
 	friend void correctorA(string &word, Dictionary* it, string &correct, bool &found);
 	friend void correctorB(string &word, Dictionary* it, string &correct, bool &found);
 	friend void correctorC(string &word, Dictionary* it, string &correct, bool &found);
@@ -47,4 +46,3 @@ public:
 	friend void correctorE(string &word, Dictionary* it, string &correct, string &buf, int &min);
 	string FindCorrect(string &word, int i);
 };
-

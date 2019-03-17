@@ -3,7 +3,7 @@
 Manager::Manager(string &inputPath)
 {
 	inF.open(inputPath);
-	if(inF.is_open())
+	if (inF.is_open())
 		haveInputFile = true;
 }
 
@@ -220,7 +220,7 @@ void correctorB(string &word, Dictionary* it, string &correct, bool &found)	//on
 				{
 					if (word[j] == correct[i])
 					{
-						i++; 
+						i++;
 						j++;
 						continue;
 					}
@@ -317,9 +317,9 @@ int LevenshteinDist(string &s1, string &s2)
 	for (int i = 0; i < s2.size() + 1; i++)
 		matrix[i][0] = i;
 
-	for (int i = 1; i < s2.size() + 1; i++) 
+	for (int i = 1; i < s2.size() + 1; i++)
 	{
-		for (int j = 1; j < s1.size() + 1; j++) 
+		for (int j = 1; j < s1.size() + 1; j++)
 		{
 			if (s1[j - 1] == s2[i - 1])
 			{

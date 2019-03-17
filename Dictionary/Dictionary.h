@@ -24,4 +24,3 @@ private:
 public:
 	Dictionary* Add(Node* letter);
 };
-

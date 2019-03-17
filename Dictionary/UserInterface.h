@@ -31,4 +31,3 @@ public:
 	UserInterface();
 	~UserInterface();
 };
-
