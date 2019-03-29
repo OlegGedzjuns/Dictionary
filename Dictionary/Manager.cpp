@@ -354,7 +354,7 @@ void correctorE(string &word, Dictionary* it, string &correct, string &buf, int 
 		if (letter->EOW)
 		{
 			int dist = LevenshteinDist(word, buf);
-			if (min == -1 || dist <= min)
+			if (min == -1 || dist < min)
 			{
 				min = dist;
 				correct = buf;
@@ -408,5 +408,27 @@ string Manager::FindCorrect(string &word, int i)
 	else
 	{
 		return word;
+	}
+}
+
+bool Manager::Correctfile(string &fileName)
+{
+	ifstream inputFile;
+	inputFile.open(fileName);
+	if (inputFile.is_open())
+	{
+		ofstream outputFile;
+		outputFile.open("Corrected " + fileName);
+		string word;
+		while (!inputFile.eof())
+		{
+			inputFile >> word;
+			if(CheckWord(word))
+				outputFile << FindCorrect(word, 5) << " ";
+		}
+	}
+	else
+	{
+		return false;
 	}
 }

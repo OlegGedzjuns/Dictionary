@@ -45,4 +45,6 @@ public:
 	friend int LevenshteinDist(string &s1, string &s2);
 	friend void correctorE(string &word, Dictionary* it, string &correct, string &buf, int &min);
 	string FindCorrect(string &word, int i);
+
+	bool Correctfile(string &fileName);
 };

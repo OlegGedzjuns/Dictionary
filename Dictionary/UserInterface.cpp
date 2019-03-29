@@ -69,9 +69,10 @@ int UserInterface::OptionsMenu()
 	cout << "\t4.Add output file" << endl;
 	cout << "\t5.Find word" << endl;
 	cout << "\t6.Find simmilar word" << endl;
-	cout << "\t7.Delete data from programm" << endl;
-	cout << "\t8.Exit" << endl;
-	return Choicer(1, 8);
+	cout << "\t7.Correct text file" << endl;
+	cout << "\t8.Delete data from programm" << endl;
+	cout << "\t9.Exit" << endl;
+	return Choicer(1, 9);
 }
 
 bool UserInterface::AddInputFile()
@@ -160,6 +161,11 @@ bool UserInterface::AddOutputFile()
 		default:
 			return false;
 	}
+}
+
+bool UserInterface::CorrectFile(string &fileName)
+{
+	return manager->Correctfile(fileName);
 }
 
 int UserInterface::MainMenu()
@@ -309,13 +315,39 @@ int UserInterface::MainMenu()
 			case 7:
 			{
 				system("cls");
+				TextColor(7);
+				if (manager->wordCnt < 100000)
+				{
+					cout << "Word base is too small, you need at least 100k words" << endl;
+					Pause();
+				}
+				else
+				{
+					string fileName;
+					cout << "Enter file name : ";
+					cin >> fileName;
+					sw.StartTimeMeasure();
+					if (!CorrectFile(fileName))
+					{
+						TextColor(4);
+						cout << "File reading error" << endl;
+					}
+					sw.EndTimeMeasure();
+					cout << "Ended in " << sw.GetTimeMeasure() << " seconds" << endl;
+					Pause();
+				}
+				break;
+			}
+			case 8:
+			{
+				system("cls");
 				TextColor(4);
 				cout << "TODO" << endl;
 				Pause();
 				break;
 				
 			}
-			case 8:
+			case 9:
 			{
 				end = true;
 				break;
