@@ -26,6 +26,7 @@ private:
 	int OptionsMenu();
 	bool AddInputFile();
 	bool AddOutputFile();
+	bool CorrectFile(string &fileName);
 public:
 	int MainMenu();
 	UserInterface();
